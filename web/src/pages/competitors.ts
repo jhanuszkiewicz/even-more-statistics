@@ -1,6 +1,6 @@
 import * as Plot from "@observablehq/plot";
 import { fetchJson } from "../data";
-import { $, fillEventSelect, runPage, show, width } from "../site";
+import { $, bindSelect, fillEventSelect, runPage, show, width } from "../site";
 
 interface CompetitorsPerYear { year: number; event_id: string; competitors: number }
 interface Newcomers { year: number; newcomers: number }
@@ -13,6 +13,7 @@ runPage(async ({ lookups }) => {
   ]);
   const sel = $<HTMLSelectElement>("cpy-event");
   fillEventSelect(sel, lookups.events, true);
+  bindSelect(sel, "event");
   const render = () => {
     const ev = sel.value;
     const rows = competitors

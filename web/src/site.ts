@@ -38,6 +38,26 @@ export function fillEventSelect(sel: HTMLSelectElement, events: EventInfo[], wit
   sel.replaceChildren(...opts);
 }
 
+/** Updates query parameters in place (no history entry); empty values are removed. */
+export function setParams(values: Record<string, string>) {
+  const url = new URL(location.href);
+  for (const [k, v] of Object.entries(values)) {
+    if (v) url.searchParams.set(k, v);
+    else url.searchParams.delete(k);
+  }
+  history.replaceState(null, "", url);
+}
+
+/**
+ * Keeps a select in sync with a query parameter: the URL value is applied on load
+ * when it is one of the options, and every change is written back to the URL.
+ */
+export function bindSelect(sel: HTMLSelectElement, param: string) {
+  const value = new URLSearchParams(location.search).get(param);
+  if (value != null && [...sel.options].some((o) => o.value === value)) sel.value = value;
+  sel.addEventListener("change", () => setParams({ [param]: sel.value }));
+}
+
 /** Loads the shared data, fills the export date and attribution, then runs the page. */
 export function runPage(page: (site: Site) => Promise<void>) {
   (async () => {

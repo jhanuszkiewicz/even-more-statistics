@@ -2,7 +2,7 @@ import * as Plot from "@observablehq/plot";
 import { dataUrl } from "../data";
 import { query } from "../db";
 import { formatResult, lowerIsBetter, toValue, unitLabel } from "../format";
-import { $, fillEventSelect, runPage, show, width } from "../site";
+import { $, fillEventSelect, runPage, setParams, show, width } from "../site";
 
 runPage(async ({ lookups, eventById }) => {
   // Competitor progression: live query in DuckDB-WASM against one event file.
@@ -10,10 +10,13 @@ runPage(async ({ lookups, eventById }) => {
   fillEventSelect(personEvent, lookups.events);
   const status = $("person-status");
   const personEl = $("chart-person");
-  $<HTMLFormElement>("person-form").addEventListener("submit", async (e) => {
+  const idInput = $<HTMLInputElement>("person-id");
+  const form = $<HTMLFormElement>("person-form");
+  form.addEventListener("submit", async (e) => {
     e.preventDefault();
-    const id = $<HTMLInputElement>("person-id").value.trim().toUpperCase();
+    const id = idInput.value.trim().toUpperCase();
     const ev = eventById.get(personEvent.value)!;
+    setParams({ id, event: ev.id });
     status.textContent = "Loading…";
     personEl.replaceChildren();
     try {
@@ -63,6 +66,16 @@ runPage(async ({ lookups, eventById }) => {
       status.textContent = `Query failed: ${(err as Error).message}`;
     }
   });
+
+  // A shared link (?id=...&event=...) shows the chart right away.
+  const params = new URLSearchParams(location.search);
+  const event = params.get("event");
+  if (event && eventById.has(event)) personEvent.value = event;
+  const id = params.get("id");
+  if (id) {
+    idInput.value = id;
+    if (idInput.checkValidity()) form.requestSubmit();
+  }
 });
 
 /** Running personal best for one kind, as points for a step line. */
