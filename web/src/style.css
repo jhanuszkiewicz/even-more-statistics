@@ -38,6 +38,7 @@ select, input, button {
   border: 1px solid var(--line); border-radius: 6px; padding: 6px 10px;
 }
 button { background: var(--accent); border-color: var(--accent); color: #fff; cursor: pointer; }
-.chart { overflow-x: auto; --plot-background: var(--bg); }
+.chart { overflow-x: auto; }
+.chart svg { --plot-background: var(--input-bg); }
 .chart svg { max-width: 100%; height: auto; }
 footer { color: var(--muted); font-size: 13px; padding-bottom: 32px; border-top: 1px solid var(--line); }
