@@ -200,6 +200,12 @@ def main() -> int:
         set_github_output(changed="false", export_date=meta["export_date"])
         return 0
 
+    # Only ever replace a folder this script created (it has a manifest) or an
+    # empty one; checked before the download so a bad --out fails fast.
+    if args.out.exists() and any(args.out.iterdir()) and not (args.out / "manifest.json").exists():
+        print(f"{args.out} is not empty and has no manifest.json; refusing to overwrite.", file=sys.stderr)
+        return 1
+
     with tempfile.TemporaryDirectory(prefix="ems_") as tmp:
         tmp_path = Path(tmp)
         zip_path = args.zip
@@ -227,10 +233,6 @@ def main() -> int:
         con_manifest = build(tsv_dir, staging, meta)
         args.out.parent.mkdir(parents=True, exist_ok=True)
         if args.out.exists():
-            # Only replace a folder this script created.
-            if not (args.out / "manifest.json").exists():
-                print(f"{args.out} exists and has no manifest.json; refusing to overwrite.", file=sys.stderr)
-                return 1
             shutil.rmtree(args.out)
         shutil.copytree(staging, args.out)
 
