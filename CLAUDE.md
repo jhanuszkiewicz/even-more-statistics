@@ -1,6 +1,8 @@
-# cube_charts
+# Even More Statistics
 
 Project map in memory vault: ~/dev/ClaudeVault/projects/cube_charts/cube_charts_moc.md — read it at session start.
+
+Repository: https://github.com/jhanuszkiewicz/even-more-statistics (local folder: `cube_charts`).
 
 Static site with charts and analyses built from the WCA results export (v2).
 

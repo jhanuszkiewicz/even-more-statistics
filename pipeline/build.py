@@ -24,7 +24,7 @@ EXPORT_API = "https://www.worldcubeassociation.org/api/v0/export/public"
 SUPPORTED_MAJOR = "v2"
 HERE = Path(__file__).resolve().parent
 DEFAULT_OUT = HERE.parent / "web" / "public" / "data"
-USER_AGENT = "cube-charts-pipeline"
+USER_AGENT = "even-more-statistics-pipeline"
 
 
 def fetch_json(url: str) -> dict:
@@ -200,7 +200,7 @@ def main() -> int:
         set_github_output(changed="false", export_date=meta["export_date"])
         return 0
 
-    with tempfile.TemporaryDirectory(prefix="cube_charts_") as tmp:
+    with tempfile.TemporaryDirectory(prefix="ems_") as tmp:
         tmp_path = Path(tmp)
         zip_path = args.zip
         if zip_path is None:
