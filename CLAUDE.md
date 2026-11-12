@@ -8,6 +8,7 @@ Static site with charts and analyses built from the WCA results export (v2).
 
 - `pipeline/` — Python + DuckDB (run with `uv`). `build.py` checks the export date, downloads the TSV export only when it changed, writes Parquet files and JSON aggregates to `web/public/data/`.
 - `web/` — Vite + TypeScript, DuckDB-WASM and Observable Plot. Reads the files from `data/`.
+  One HTML page per analysis (`web/<slug>/index.html` + `web/src/pages/<slug>.ts`); register new pages in `web/site.config.ts` (build inputs, home page cards, shared header/footer). Only pages with live queries import `src/db.ts` (DuckDB-WASM).
 - `.github/workflows/update.yml` — daily cron: build data when a new export exists, deploy to GitHub Pages.
 
 Rules:

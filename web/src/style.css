@@ -42,3 +42,19 @@ button { background: var(--accent); border-color: var(--accent); color: #fff; cu
 .chart svg { --plot-background: var(--input-bg); }
 .chart svg { max-width: 100%; height: auto; }
 footer { color: var(--muted); font-size: 13px; padding-bottom: 32px; border-top: 1px solid var(--line); }
+a { color: var(--accent); }
+.brand { color: var(--fg); font-weight: 600; font-size: 15px; text-decoration: none; }
+.brand:hover { text-decoration: underline; }
+main > h1 { margin: 24px 0 4px; }
+.lead { color: var(--muted); margin: 0 0 8px; }
+.cards {
+  list-style: none; padding: 24px 0; margin: 0;
+  display: grid; gap: 12px; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+}
+.card {
+  display: block; height: 100%; padding: 16px; border: 1px solid var(--line); border-radius: 8px;
+  background: var(--input-bg); color: var(--fg); text-decoration: none;
+}
+.card:hover { border-color: var(--accent); }
+.card h2 { margin: 0 0 6px; font-size: 16px; }
+.card p { margin: 0; color: var(--muted); font-size: 14px; }

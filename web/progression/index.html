@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Competitor progression · Even More Statistics</title>
+    <meta name="description" content="Every result and the personal best line of one competitor in one event." />
+  </head>
+  <body>
+    <!--site-header-->
+    <main>
+      <h1>Competitor progression</h1>
+      <p class="lead">Every result and the personal best line of one competitor in one event.</p>
+      <section>
+        <form id="person-form" class="controls">
+          <label>WCA ID <input id="person-id" placeholder="2009ZEMD01" maxlength="10" required pattern="\d{4}[A-Za-z]{4}\d{2}" /></label>
+          <label>Event <select id="person-event"></select></label>
+          <button type="submit">Show</button>
+        </form>
+        <p id="person-status" class="hint"></p>
+        <div id="chart-person" class="chart"></div>
+      </section>
+    </main>
+    <!--site-footer-->
+    <script type="module" src="../src/pages/progression.ts"></script>
+  </body>
+</html>
