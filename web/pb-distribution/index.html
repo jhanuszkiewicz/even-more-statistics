@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Personal best distribution · Even More Statistics</title>
+    <meta name="description" content="Where a personal best places among all competitors, for every event, single and average." />
+  </head>
+  <body>
+    <!--site-header-->
+    <main>
+      <h1>Personal best distribution</h1>
+      <p class="lead">Where a personal best places among all competitors, for every event, single and average.</p>
+      <section>
+        <div class="controls">
+          <label>Event <select id="pb-event"></select></label>
+          <label>Kind <select id="pb-kind"><option value="average">Average</option><option value="single">Single</option></select></label>
+        </div>
+        <p class="hint">Share of competitors (x) whose personal best is at least as good as the value (y).</p>
+        <div id="chart-pb" class="chart"></div>
+      </section>
+    </main>
+    <!--site-footer-->
+    <script type="module" src="../src/pages/pb-distribution.ts"></script>
+  </body>
+</html>

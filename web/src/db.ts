@@ -23,11 +23,6 @@ export function getDb(): Promise<duckdb.AsyncDuckDB> {
   return dbPromise;
 }
 
-/** Absolute URL of a data file, so DuckDB can read it with HTTP range requests. */
-export function dataUrl(rel: string): string {
-  return new URL(`data/${rel}`, document.baseURI).href;
-}
-
 export async function query<T>(sql: string, params: unknown[] = []): Promise<T[]> {
   const db = await getDb();
   const conn = await db.connect();
@@ -42,10 +37,4 @@ export async function query<T>(sql: string, params: unknown[] = []): Promise<T[]
   } finally {
     await conn.close();
   }
-}
-
-export async function fetchJson<T>(rel: string): Promise<T> {
-  const resp = await fetch(dataUrl(rel));
-  if (!resp.ok) throw new Error(`${rel}: HTTP ${resp.status}`);
-  return resp.json() as Promise<T>;
 }
