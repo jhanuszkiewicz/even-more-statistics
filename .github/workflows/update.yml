@@ -1,0 +1,80 @@
+name: Update data and deploy
+
+on:
+  schedule:
+    - cron: "15 6 * * *" # daily; a full build runs only when WCA published a new export
+  push:
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      force:
+        description: Rebuild data even if the export did not change
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    outputs:
+      changed: ${{ steps.data.outputs.changed }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - id: pages
+        uses: actions/configure-pages@v5
+
+      # The deployed manifest tells the pipeline which export is already live.
+      - name: Fetch deployed manifest
+        run: |
+          mkdir -p web/public/data
+          curl -sf "${{ steps.pages.outputs.base_url }}/data/manifest.json" -o web/public/data/manifest.json \
+            || rm -f web/public/data/manifest.json
+
+      - uses: astral-sh/setup-uv@v6
+
+      - name: Build data
+        id: data
+        working-directory: pipeline
+        run: |
+          FORCE=""
+          if [ "${{ github.event_name }}" = "push" ] || [ "${{ inputs.force }}" = "true" ]; then FORCE="--force"; fi
+          uv run python build.py $FORCE
+
+      - uses: actions/setup-node@v4
+        if: steps.data.outputs.changed == 'true'
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: web/package-lock.json
+
+      - name: Build site
+        if: steps.data.outputs.changed == 'true'
+        working-directory: web
+        run: |
+          npm ci
+          npm run build
+
+      - uses: actions/upload-pages-artifact@v3
+        if: steps.data.outputs.changed == 'true'
+        with:
+          path: web/dist
+
+  deploy:
+    needs: build
+    if: needs.build.outputs.changed == 'true'
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

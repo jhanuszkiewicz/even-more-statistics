@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Cube Charts</title>
+    <link rel="stylesheet" href="./src/style.css" />
+  </head>
+  <body>
+    <header>
+      <h1>Cube Charts</h1>
+      <p class="sub">Charts and analyses of WCA competition results. <span id="export-date"></span></p>
+    </header>
+    <main>
+      <section>
+        <h2>Competitions per year</h2>
+        <div id="chart-competitions" class="chart"></div>
+      </section>
+      <section>
+        <h2>Competitors per year</h2>
+        <div class="controls">
+          <label>Event <select id="cpy-event"></select></label>
+        </div>
+        <div id="chart-competitors" class="chart"></div>
+      </section>
+      <section>
+        <h2>Personal best distribution</h2>
+        <div class="controls">
+          <label>Event <select id="pb-event"></select></label>
+          <label>Kind <select id="pb-kind"><option value="average">Average</option><option value="single">Single</option></select></label>
+        </div>
+        <p class="hint">Share of competitors (x) whose personal best is at least as good as the value (y).</p>
+        <div id="chart-pb" class="chart"></div>
+      </section>
+      <section>
+        <h2>Competitor progression</h2>
+        <form id="person-form" class="controls">
+          <label>WCA ID <input id="person-id" placeholder="2009ZEMD01" maxlength="10" required pattern="\d{4}[A-Za-z]{4}\d{2}" /></label>
+          <label>Event <select id="person-event"></select></label>
+          <button type="submit">Show</button>
+        </form>
+        <p id="person-status" class="hint"></p>
+        <div id="chart-person" class="chart"></div>
+      </section>
+    </main>
+    <footer><p id="attribution"></p></footer>
+    <script type="module" src="./src/main.ts"></script>
+  </body>
+</html>
