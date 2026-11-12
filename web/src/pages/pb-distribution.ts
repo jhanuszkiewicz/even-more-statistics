@@ -1,7 +1,7 @@
 import * as Plot from "@observablehq/plot";
 import { fetchJson } from "../data";
 import { type Kind, formatResult, toValue, unitLabel } from "../format";
-import { $, ACCENT, fillEventSelect, runPage, show, width } from "../site";
+import { $, ACCENT, bindSelect, fillEventSelect, runPage, show, width } from "../site";
 
 interface Percentile { kind: Kind; event_id: string; pct: number; value: number }
 
@@ -11,6 +11,8 @@ runPage(async ({ eventById, currentEvents }) => {
   const pbEvent = $<HTMLSelectElement>("pb-event");
   const pbKind = $<HTMLSelectElement>("pb-kind");
   fillEventSelect(pbEvent, currentEvents);
+  bindSelect(pbEvent, "event");
+  bindSelect(pbKind, "kind");
   const render = () => {
     const ev = eventById.get(pbEvent.value)!;
     const kind = pbKind.value as Kind;
