@@ -10,6 +10,7 @@ export interface Manifest {
 export interface Lookups {
   events: EventInfo[];
   continents: { id: string; name: string }[];
+  countries: { id: string; name: string; continent_id: string; iso2: string }[];
 }
 export interface Site {
   manifest: Manifest;
