@@ -5,6 +5,9 @@ import { $, bindSelect, fillEventSelect, runPage, show, width } from "../site";
 interface CompetitorsPerYear { year: number; event_id: string; competitors: number }
 interface Newcomers { year: number; newcomers: number }
 
+// 1982 was a one-off World Championship; regular competitions start in 2003.
+const FIRST_YEAR = 2003;
+
 // Competitors per year (distinct people), with newcomers for "All events".
 runPage(async ({ lookups }) => {
   const [competitors, newcomers] = await Promise.all([
@@ -17,9 +20,9 @@ runPage(async ({ lookups }) => {
   const render = () => {
     const ev = sel.value;
     const rows = competitors
-      .filter((d) => d.event_id === ev)
+      .filter((d) => d.event_id === ev && d.year >= FIRST_YEAR)
       .map((d) => ({ year: d.year, value: d.competitors, series: "competitors" }));
-    if (ev === "*") rows.push(...newcomers.map((d) => ({ year: d.year, value: d.newcomers, series: "first competition" })));
+    if (ev === "*") rows.push(...newcomers.filter((d) => d.year >= FIRST_YEAR).map((d) => ({ year: d.year, value: d.newcomers, series: "first competition" })));
     const el = $("chart-competitors");
     show(el, Plot.plot({
       width: width(el),
