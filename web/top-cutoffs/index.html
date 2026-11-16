@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Top 10 and top 100 over time · Even More Statistics</title>
+    <meta name="description" content="The result needed for the top 10 and top 100 at the end of each year, per event and region." />
+  </head>
+  <body>
+    <!--site-header-->
+    <main>
+      <h1>Top 10 and top 100 over time</h1>
+      <p class="lead">The result needed for the top 10 and top 100 at the end of each year, per event and region.</p>
+      <section>
+        <div class="controls">
+          <label>Event <select id="tc-event"></select></label>
+          <label>Kind <select id="tc-kind"><option value="single">Single</option><option value="average">Average</option></select></label>
+          <label>Region <select id="tc-region"></select></label>
+        </div>
+        <p class="hint">Personal best of the 10th and 100th person in the rankings at the end of each year. A result counts for the country the competitor represented when it was set, as in the official rankings. The current year is shown so far.</p>
+        <div id="chart-tc" class="chart"></div>
+      </section>
+    </main>
+    <!--site-footer-->
+    <script type="module" src="../src/pages/top-cutoffs.ts"></script>
+  </body>
+</html>
