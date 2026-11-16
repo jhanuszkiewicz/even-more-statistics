@@ -159,6 +159,18 @@ def build(tsv_dir: Path, out: Path, meta: dict) -> dict:
         (out / rel).write_text(json.dumps(rows, default=str, separators=(",", ":")))
         track(rel)
 
+    # Per-event aggregates: the query returns an event_id column and is split into
+    # aggregates/<name>/<event>.json (rows without event_id), one file for every event.
+    for sql_file in sorted((HERE / "aggregates" / "per_event").glob("*.sql")):
+        by_event: dict[str, list[dict]] = {ev: [] for ev in events}
+        for row in rows_as_dicts(con, sql_file.read_text()):
+            by_event.setdefault(row.pop("event_id"), []).append(row)
+        (out / "aggregates" / sql_file.stem).mkdir()
+        for ev, rows in by_event.items():
+            rel = f"aggregates/{sql_file.stem}/{ev}.json"
+            (out / rel).write_text(json.dumps(rows, default=str, separators=(",", ":")))
+            track(rel)
+
     export_date = meta["export_date"]
     date_label = datetime.fromisoformat(export_date.replace("Z", "+00:00")).strftime("%B %-d, %Y")
     manifest = {

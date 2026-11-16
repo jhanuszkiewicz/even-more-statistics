@@ -24,6 +24,11 @@ export const PAGES: PageInfo[] = [
     description: "Where a personal best places among all competitors, for every event, single and average.",
   },
   {
+    slug: "top-cutoffs",
+    title: "Top 10 and top 100 over time",
+    description: "The result needed for the top 10 and top 100 at the end of each year, per event and region.",
+  },
+  {
     slug: "rankings",
     title: "Rankings",
     description: "Top 20 competitors in unusual categories, worldwide, per continent and per country.",
