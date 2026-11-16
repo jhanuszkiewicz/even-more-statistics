@@ -11,7 +11,7 @@ export const PAGES: PageInfo[] = [
   {
     slug: "competitions",
     title: "Competitions per year",
-    description: "How many WCA competitions took place each year, split by continent.",
+    description: "How many WCA competitions took place each year, worldwide and per continent.",
   },
   {
     slug: "competitors",
